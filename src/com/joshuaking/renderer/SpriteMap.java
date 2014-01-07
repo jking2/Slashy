@@ -29,4 +29,14 @@ public class SpriteMap {
 		}
 		return null;
 	}
+	
+	public void addAndSetSprite(String name, Sprite sprite){
+		if(!sprites.containsKey(name)){
+			sprites.put(name, sprite);
+		}
+		this.setCurrentSprite(name);
+	}
+	public void renderCurrentSprite(double posX, double posY, double rotation){
+		this.currSprite.render(posX, posY, rotation);
+	}
 }
