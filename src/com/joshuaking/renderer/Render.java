@@ -25,7 +25,7 @@ public class Render {
 	public void createDisplay(){
 		try{
 
-			Display.setDisplayMode(new DisplayMode(800,600));
+			Display.setDisplayMode(new DisplayMode(1024,768));
 			Display.create();
 			GL11.glMatrixMode(GL11.GL_PROJECTION);
 			GL11.glLoadIdentity();
@@ -34,6 +34,10 @@ public class Render {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_BLEND);
 	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	        
+	        //Zooms in the camera in. (x,y,z) ---> (2,2,1) == double zoom
+	        GL11.glScalef(1, 1, 1);
+	        
 	        
 	        
 		}catch(Exception e){

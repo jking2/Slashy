@@ -2,8 +2,12 @@ package com.joshuaking.proto;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.geom.Rectangle;
+
 import com.joshuaking.entity.Projectile;
 import com.joshuaking.input.Input;
+import com.joshuaking.map.Tile;
+import com.joshuaking.map.TileSet;
 import com.joshuaking.renderer.Render;
 import com.joshuaking.renderer.Sprite;
 import com.joshuaking.renderer.SpriteMap;
@@ -12,11 +16,12 @@ public class Driver {
 
 	private Sprite guy;
 	private Sprite background;
-	private float posX = 0;
-	private float posY = 0;
+	private float posX = -64;
+	private float posY = -64;
 	private float rotation = 0;
 	private float speed = 0.1f;
 
+	private TileSet tileSet;
 	private SpriteMap bullet;
 	private ArrayList<Projectile> bullets;
 
@@ -30,6 +35,7 @@ public class Driver {
 		bullet.addAndSetSprite("main", new Sprite("Assets/Bullet.png"));
 		bullets = new ArrayList<Projectile>();
 
+		genTiles();
 	}
 
 	public void go() {
@@ -37,6 +43,8 @@ public class Driver {
 
 			background.render(0, 0, 0);
 
+			float prevX = posX;
+			float prevY = posY;
 			if (Input.getInstance().isMoveUpKeyDown()) {
 				posY--;
 			} else if (Input.getInstance().isMoveDownKeyDown()) {
@@ -105,6 +113,14 @@ public class Driver {
 					}
 				}
 			}
+			
+			Rectangle me = new Rectangle(posX-32, posY-32, 64, 64);
+			
+			if(tileSet.isCollision(me)){
+				posX =prevX;
+				posY =prevY;
+			}
+			
 
 			if (Input.getInstance().isMouseLeftClick()) {
 				Projectile newP = new Projectile(Input.getInstance()
@@ -118,6 +134,7 @@ public class Driver {
 				cur.getSprites().renderCurrentSprite(cur.getPosX(),
 						cur.getPosY(), cur.getRotation());
 			}
+			tileSet.render();
 			guy.render(posX, posY, rotation);
 			Render.getInstance().updateDisplay();
 
@@ -133,5 +150,21 @@ public class Driver {
 	public static void main(String args[]) {
 		Driver d = new Driver();
 		d.go();
+	}
+	private void genTiles(){
+		
+		ArrayList<ArrayList<Tile>> tiles = new ArrayList<ArrayList<Tile>>();
+		
+		Sprite tileSprite = new Sprite("Assets/Tile.png");
+		System.out.println("genning tiles");
+		for(int x=0;x<10;x++){
+			ArrayList<Tile> list = new ArrayList<Tile>();
+			for(int y=0;y<10;y++){
+				Tile tile = new Tile(x*64, y*64, true, tileSprite);
+				list.add(tile);
+			}
+			tiles.add(list);
+		}
+		tileSet = new TileSet(tiles);
 	}
 }

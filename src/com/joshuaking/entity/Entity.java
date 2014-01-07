@@ -84,6 +84,6 @@ public class Entity {
 		return hitbox;
 	}
 	private void calcHitbox(){
-		hitbox = new Rectangle(posX, posY, radius, radius);
+		hitbox = new Rectangle(posX-(radius/2), posY-(radius/2), radius, radius);
 	}
 }
