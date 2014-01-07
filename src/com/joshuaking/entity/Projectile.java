@@ -1,25 +1,38 @@
 package com.joshuaking.entity;
 
-public  class Projectile extends Entity{
+public abstract class Projectile extends Entity {
 
-	private float destX;
-	private float destY;
-	
+	private boolean isAlive;
+
 	private float speed;
 	
+	public abstract boolean increment();
 	
-	public void increment(){
-
-		this.setPosX((float) (this.getPosX()+((Math.cos(Math.toRadians(this.getRotation()-90)))*speed)));
-		this.setPosY((float) (this.getPosY()+((Math.sin(Math.toRadians(this.getRotation()-90)))*speed)));
-	}
+	public abstract void collide();
 	
-	public Projectile(float destX, float destY, float speed, float originX, float originY, float radius, float rotation){
-		super(originX, originY,radius, rotation);
-		this.destX=destX;
-		this.destY=destY;
+	public Projectile(float speed, float originX, float originY, float radius, float rotation){
+		super(originX, originY, radius, rotation);
 		this.speed=speed;
-		
+		this.isAlive=true;
 	}
 	
+	
+	
+	
+	
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
 }

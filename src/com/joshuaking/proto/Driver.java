@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import com.joshuaking.entity.Projectile;
+import com.joshuaking.entity.LocationProjectile;
 import com.joshuaking.input.Input;
 import com.joshuaking.map.Tile;
 import com.joshuaking.map.TileSet;
@@ -23,7 +23,7 @@ public class Driver {
 
 	private TileSet tileSet;
 	private SpriteMap bullet;
-	private ArrayList<Projectile> bullets;
+	private ArrayList<LocationProjectile> bullets;
 
 	private boolean freeAim = false;
 
@@ -33,7 +33,7 @@ public class Driver {
 		background = new Sprite("Assets/Background.png");
 		bullet = new SpriteMap();
 		bullet.addAndSetSprite("main", new Sprite("Assets/Bullet.png"));
-		bullets = new ArrayList<Projectile>();
+		bullets = new ArrayList<LocationProjectile>();
 
 		genTiles();
 	}
@@ -113,27 +113,37 @@ public class Driver {
 					}
 				}
 			}
-			
-			Rectangle me = new Rectangle(posX-32, posY-32, 64, 64);
-			
-			if(tileSet.isCollision(me)){
-				posX =prevX;
-				posY =prevY;
+
+			Rectangle me = new Rectangle(posX - 32, posY - 32, 64, 64);
+
+			if (tileSet.isCollision(me)) {
+				posX = prevX;
+				posY = prevY;
 			}
-			
 
 			if (Input.getInstance().isMouseLeftClick()) {
-				Projectile newP = new Projectile(Input.getInstance()
+				LocationProjectile newP = new LocationProjectile(Input.getInstance()
 						.getMouseVector().getX(), Input.getInstance()
 						.getMouseVector().getY(), 8, posX, posY, 3, rotation);
 				newP.setSprites(bullet);
 				bullets.add(newP);
 			}
-			for (Projectile cur : bullets) {
-				cur.increment();
-				cur.getSprites().renderCurrentSprite(cur.getPosX(),
-						cur.getPosY(), cur.getRotation());
+
+			ArrayList<LocationProjectile> removes = new ArrayList<LocationProjectile>();
+			for (LocationProjectile cur : bullets) {
+
+				if(cur.increment()){
+					cur.getSprites().renderCurrentSprite(cur.getPosX(),
+							cur.getPosY(), cur.getRotation());
+				}else{
+					removes.add(cur);
+				}
 			}
+			for(LocationProjectile removeMe : removes){
+				bullets.remove(removeMe);
+			}
+			removes = null;
+			
 			tileSet.render();
 			guy.render(posX, posY, rotation);
 			Render.getInstance().updateDisplay();
@@ -151,16 +161,17 @@ public class Driver {
 		Driver d = new Driver();
 		d.go();
 	}
-	private void genTiles(){
-		
+
+	private void genTiles() {
+
 		ArrayList<ArrayList<Tile>> tiles = new ArrayList<ArrayList<Tile>>();
-		
+
 		Sprite tileSprite = new Sprite("Assets/Tile.png");
 		System.out.println("genning tiles");
-		for(int x=0;x<10;x++){
+		for (int x = 0; x < 10; x++) {
 			ArrayList<Tile> list = new ArrayList<Tile>();
-			for(int y=0;y<10;y++){
-				Tile tile = new Tile(x*64, y*64, true, tileSprite);
+			for (int y = 0; y < 10; y++) {
+				Tile tile = new Tile(x * 64, y * 64, true, tileSprite);
 				list.add(tile);
 			}
 			tiles.add(list);
