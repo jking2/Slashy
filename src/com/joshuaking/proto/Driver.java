@@ -171,7 +171,7 @@ public class Driver {
 		for (int x = 0; x < 10; x++) {
 			ArrayList<Tile> list = new ArrayList<Tile>();
 			for (int y = 0; y < 10; y++) {
-				Tile tile = new Tile(x * 64, y * 64, true, tileSprite);
+				Tile tile = new Tile(x * 32, y * 32, true, tileSprite);
 				list.add(tile);
 			}
 			tiles.add(list);

@@ -46,6 +46,12 @@ public class Input {
 	public boolean isMouseRightClick(){
 		return Mouse.isButtonDown(1);
 	}
+	public boolean isMenuKeyDown(){
+		return Keyboard.isKeyDown(Keyboard.KEY_ESCAPE);
+	}
+	public boolean isConfirmKeyDown(){
+		return Keyboard.isKeyDown(Keyboard.KEY_RETURN);
+	}
 	
 	
 }

@@ -7,7 +7,7 @@ import com.joshuaking.renderer.Sprite;
 
 public class Tile {
 
-	public static float TILE_RADIUS = 64;
+	public static float TILE_RADIUS = 32;
 	private boolean isSolid;
 	private Rectangle hitbox;
 	private float posX;
@@ -23,7 +23,7 @@ public class Tile {
 		calcHitbox();
 	}
 	private void calcHitbox(){
-		hitbox = new Rectangle(posX-32, posY-32, TILE_RADIUS, TILE_RADIUS);
+		hitbox = new Rectangle(posX-(TILE_RADIUS/2), posY-(TILE_RADIUS/2), TILE_RADIUS, TILE_RADIUS);
 	}
 	public boolean isSolid() {
 		return isSolid;
