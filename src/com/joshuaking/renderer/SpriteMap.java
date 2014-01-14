@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 public class SpriteMap {
 
-	private HashMap<String, Sprite> sprites;
-	private Sprite currSprite;
+	private HashMap<String, ISprite> sprites;
+	private ISprite currSprite;
 	public SpriteMap(){
-		sprites = new HashMap<String,Sprite>();
+		sprites = new HashMap<String,ISprite>();
 		currSprite = null;
 	}
-	public void addSprite(String name, Sprite sprite){
+	public void addSprite(String name, ISprite sprite){
 		if(!sprites.containsKey(name)){
 			sprites.put(name, sprite);
 		}
@@ -20,10 +20,10 @@ public class SpriteMap {
 			currSprite = sprites.get(name);
 		}
 	}
-	public Sprite getCurrentSprite(){
+	public ISprite getCurrentSprite(){
 		return currSprite;
 	}
-	public Sprite getSprite(String name){
+	public ISprite getSprite(String name){
 		if(sprites.containsKey(name)){
 			return sprites.get(name);
 		}
@@ -36,7 +36,7 @@ public class SpriteMap {
 		}
 		this.setCurrentSprite(name);
 	}
-	public void renderCurrentSprite(double posX, double posY, double rotation){
+	public void renderCurrentSprite(float posX, float posY, float rotation){
 		this.currSprite.render(posX, posY, rotation);
 	}
 }

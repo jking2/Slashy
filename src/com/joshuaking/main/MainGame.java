@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.joshuaking.exceptions.JIllegalStateException;
 import com.joshuaking.renderer.Render;
 import com.joshuaking.statemachine.EmptyState;
+import com.joshuaking.statemachine.MainGameState;
 import com.joshuaking.statemachine.StateMachine;
 import com.joshuaking.statemachine.TestState;
 
@@ -40,6 +41,8 @@ public class MainGame extends Thread {
 		stateMachine.add("empty", new EmptyState());
 
 		stateMachine.add("test", new TestState());
+		
+		stateMachine.add("maingame", new MainGameState());
 
 		changeState("test", "fucking fuck");
 		
@@ -54,18 +57,15 @@ public class MainGame extends Thread {
 
 		int lastSecondTime = (int) (lastUpdateTime / 1000000000);
 		running.set(true);
+		
+		int fps = 60;
+		int frameCount = 0;
+		
 		while (running.get()) {
 			double currentTime = System.nanoTime();
 			int updateCount = 0;
-			// Do as many updates as needed
-			// We always do more updates if we are behind in updates so we
-			// update
-			// more than render
 			while (currentTime - lastUpdateTime > TIME_BETWEEN_UPDATES
 					&& updateCount < MAX_UPDATES) {
-				// Only update if we are still running. This prevents the game
-				// from continueing when we are
-				// changing the state
 				if (running.get()) {
 					stateMachine.update();
 				}
@@ -75,20 +75,19 @@ public class MainGame extends Thread {
 			if (currentTime - lastUpdateTime > TIME_BETWEEN_UPDATES) {
 				lastUpdateTime = currentTime - TIME_BETWEEN_UPDATES;
 			}
-			// Only render the state if we are still running. This prevents us
-			// from rendering a state
-			// That we have just entered and is not ready yet
 			if (running.get()) {
 				stateMachine.render();
 				Render.getInstance().updateDisplay();
+				frameCount++;
+				lastRenderTime = currentTime;
 			}
-			lastRenderTime = currentTime;
 			int thisSecond = (int) (lastUpdateTime / 1000000000);
 			if (thisSecond > lastSecondTime) {
+				Render.getInstance().displayFPS(thisSecond,frameCount);
+				fps = frameCount;
+				frameCount = 0;
 				lastSecondTime = thisSecond;
 			}
-			// Sleep while we wait to be start over. This keeps the game from
-			// running too fast.
 			while (currentTime - lastRenderTime < TIME_BETWEEN_RENDERS
 					&& currentTime - lastUpdateTime < TIME_BETWEEN_UPDATES) {
 				Thread.yield();

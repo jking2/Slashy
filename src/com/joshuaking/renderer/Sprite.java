@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-public class Sprite {
+public class Sprite implements ISprite{
 
 	private Texture texture;
 	private int width;
@@ -32,12 +32,12 @@ public class Sprite {
 	public int getHeight(){
 		return texture.getImageHeight();
 	}
-	public void render(double x, double y, double rotation){
-		renderedPosX = x;
-		renderedPosY = y;
+	public boolean render(float xPos, float yPos, float rotation){
+		renderedPosX = xPos;
+		renderedPosY = yPos;
 		GL11.glPushMatrix();
 		texture.bind();
-		GL11.glTranslated(x, y, 0);
+		GL11.glTranslated(xPos, yPos, 0);
 		rotate(rotation);
 		GL11.glBegin(GL11.GL_QUADS);
 		{
@@ -55,6 +55,7 @@ public class Sprite {
 		}
 		GL11.glEnd();
 		GL11.glPopMatrix();
+		return true;
 	}
 	public boolean isWithinBB(double mouseX, double mouseY){
 		if(mouseX>renderedPosX && mouseX < renderedPosX+width){

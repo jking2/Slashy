@@ -10,6 +10,9 @@ public class Render {
 	private final int HEIGHT = 600; //Default 600
 	private TextureLoader textureLoader;
 	private static Render instance = null;
+	
+	private Sprite loadingScreen = null;
+	
 	private Render(){
 		textureLoader = new TextureLoader();
 	}
@@ -38,7 +41,7 @@ public class Render {
 	        //Zooms in the camera in. (x,y,z) ---> (2,2,1) == double zoom
 	        GL11.glScalef(1, 1, 1);
 	        
-	        
+			loadingScreen = new Sprite("Assets/LoadingScreen.png");
 	        
 		}catch(Exception e){
 			System.out.println("Could not create the display and/or set it to a displayMode");
@@ -54,5 +57,13 @@ public class Render {
 			Display.update();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		}
+	}
+	public void displayFPS(int currentSecond, int FPS){
+		String title = "Current Second: "+currentSecond+"   FPS: "+FPS;
+		Display.setTitle(title);
+	}
+	public void renderLoadingScreen(){
+		loadingScreen.render(0, 0, 0);
+		updateDisplay();
 	}
 }

@@ -2,7 +2,7 @@ package com.joshuaking.renderer;
 
 import java.util.ArrayList;
 
-public class AnimatedSprite {
+public class AnimatedSprite implements ISprite {
 
 	public static final float AVERAGE_SPEED = 10;
 	
@@ -11,7 +11,7 @@ public class AnimatedSprite {
 	private int index;
 
 	private float originalSpeed;
-	private long lastFrame;
+	private int counter;
 	private float speed;
 
 	public AnimatedSprite(ArrayList<Sprite> sprites, float speed) {
@@ -19,7 +19,7 @@ public class AnimatedSprite {
 		index = 0;
 		this.speed = speed;
 		this.originalSpeed = speed;
-		lastFrame = System.currentTimeMillis();
+		counter = 0;
 	}
 
 	public void resetIndex() {
@@ -56,14 +56,15 @@ public class AnimatedSprite {
 	 */
 	public boolean render(float xPos, float yPos, float rotation) {
 		sprites.get(index).render(xPos, yPos, rotation);
-		if ((System.currentTimeMillis() - lastFrame) > speed * 50) {
-			lastFrame = System.currentTimeMillis();
+		if ((counter) > speed) {
+			counter = 0;
 			index++;
 			if (index >= sprites.size()) {
 				index = 0;
 				return true;
 			}
 		}
+		counter++;
 		return false;
 	}
 	

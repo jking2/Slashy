@@ -17,6 +17,9 @@ public class TestState implements IState {
 		if (Input.getInstance().isConfirmKeyDown()) {
 			done = false;
 		}
+		if(Input.getInstance().isMouseLeftClick()){
+			MainGame.GetInstance().changeState("maingame", "01tutorial");
+		}
 	}
 
 	@Override

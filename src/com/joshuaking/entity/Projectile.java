@@ -4,15 +4,15 @@ public abstract class Projectile extends Entity {
 
 	private boolean isAlive;
 
-	private float speed;
+	private float velocity;
 	
 	public abstract boolean increment();
 	
 	public abstract void collide();
 	
-	public Projectile(float speed, float originX, float originY, float radius, float rotation){
+	public Projectile(float velocity, float originX, float originY, float radius, float rotation){
 		super(originX, originY, radius, rotation);
-		this.speed=speed;
+		this.velocity=velocity;
 		this.isAlive=true;
 	}
 	
@@ -28,11 +28,11 @@ public abstract class Projectile extends Entity {
 		this.isAlive = isAlive;
 	}
 
-	public float getSpeed() {
-		return speed;
+	public float getVelocity() {
+		return velocity;
 	}
 
 	public void setSpeed(float speed) {
-		this.speed = speed;
+		this.velocity = speed;
 	}
 }

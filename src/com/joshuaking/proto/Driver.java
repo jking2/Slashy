@@ -6,14 +6,14 @@ import org.newdawn.slick.geom.Rectangle;
 
 import com.joshuaking.entity.LocationProjectile;
 import com.joshuaking.input.Input;
-import com.joshuaking.map.Tile;
-import com.joshuaking.map.TileSet;
 import com.joshuaking.renderer.Render;
 import com.joshuaking.renderer.Sprite;
 import com.joshuaking.renderer.SpriteMap;
+import com.joshuaking.tile.Tile;
+import com.joshuaking.tile.TileSet;
 
 public class Driver {
-
+/*
 	private Sprite guy;
 	private Sprite background;
 	private float posX = -64;
@@ -178,4 +178,5 @@ public class Driver {
 		}
 		tileSet = new TileSet(tiles);
 	}
+	*/
 }
