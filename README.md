@@ -1,1 +1,1 @@
-A 2d Zelda styled game I plan on creating over Jterm
+Experimenting with making a top down zelda style control scheme
